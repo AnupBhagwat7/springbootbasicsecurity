@@ -3,7 +3,6 @@ package com.myjavablog.controller;
 import com.myjavablog.model.Todo;
 import com.myjavablog.model.User;
 import com.myjavablog.repository.TodoRepository;
-import com.myjavablog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
