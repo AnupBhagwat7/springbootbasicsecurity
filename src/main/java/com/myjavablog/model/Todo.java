@@ -27,4 +27,9 @@ public class Todo implements Serializable{
     @Column
     private String status;
 
+    public Todo(String name, String desc, String status) {
+        this.name = name;
+        this.desc = desc;
+        this.status = status;
+    }
 }

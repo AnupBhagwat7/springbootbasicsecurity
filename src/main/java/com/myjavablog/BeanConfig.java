@@ -1,3 +1,4 @@
+/*
 package com.myjavablog;
 
 import org.h2.server.web.WebServlet;
@@ -14,4 +15,4 @@ public class BeanConfig {
         registrationBean.addUrlMappings("/console/*");
         return registrationBean;
     }
-}
+}*/
