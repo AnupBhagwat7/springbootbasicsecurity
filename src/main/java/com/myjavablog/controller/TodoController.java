@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
 public class TodoController {
 
-    @Autowired
-    private TodoRepository todoRepository;
+    //@Autowired
+    //private TodoRepository todoRepository;
+
+    static List<Todo> list = new ArrayList<>();
 
     @GetMapping(produces = "application/json")
     @RequestMapping({ "/validateLogin" })
@@ -25,49 +26,80 @@ public class TodoController {
         return new User("User successfully authenticated");
     }
 
-    @GetMapping("/todos")
+    @GetMapping(produces = "application/json")
+    @RequestMapping("/todos")
     public List<Todo> getTodos(){
-        return getTodoList();
-    }
-
-    public static List<Todo> getTodoList(){
-
-        List<Todo> list = new ArrayList<>();
-        list.add(new Todo("Play", "Badminton at 6 am", "Pending"));
-        list.add(new Todo("Play", "Cricket at 7 am", "Pending"));
-        list.add(new Todo("Play", "Football at 8 am", "Pending"));
-        list.add(new Todo("Play", "Cards at 6 am", "Pending"));
-        list.add(new Todo("Play", "TT at 6 am", "Pending"));
-        list.add(new Todo("Play", "Golf at 6 am", "Pending"));
-        list.add(new Todo("Play", "Running at 6 am", "Pending"));
-        list.add(new Todo("Play", "Walking at 6 am", "Pending"));
-        list.add(new Todo("Play", "Swimming at 6 am", "Pending"));
-        list.add(new Todo("Play", "Reading at 6 am", "Pending"));
-
         return list;
     }
 
+    TodoController(){
+
+        list.add(new Todo(1l,"Badminton", "Badminton at 6 am", "Pending"));
+        list.add(new Todo(2l,"Cricket", "Cricket at 7 am", "Pending"));
+        list.add(new Todo(3l,"Football", "Football at 8 am", "Pending"));
+        list.add(new Todo(4l,"Cards", "Cards at 6 am", "Pending"));
+        list.add(new Todo(5l,"TT", "TT at 6 am", "Completed"));
+        list.add(new Todo(6l,"Golf", "Golf at 6 am", "Pending"));
+        list.add(new Todo(7l,"Running", "Running at 6 am", "Pending"));
+        list.add(new Todo(8l,"Walking", "Walking at 6 am", "Pending"));
+        list.add(new Todo(9l,"Swimming", "Swimming at 6 am", "Completed"));
+        list.add(new Todo(10l,"Reading", "Reading at 6 am", "Pending"));
+
+        //return list;
+    }
+
     @GetMapping("/todo/{id}")
-    public Optional<Todo> getTodo(@PathVariable Long id)
+    public Todo getTodo(@PathVariable Long id)
     {
-        return todoRepository.findById(id);
+        //return todoRepository.findById(id);
+
+        for(Todo todo : list){
+
+            if(todo.getId() == id){
+                return todo;
+            }
+        }
+
+        return null;
     }
 
     @DeleteMapping("/todo/{id}")
     public boolean deleteTodo(@PathVariable Long id){
-        todoRepository.deleteById(id);
+        //todoRepository.deleteById(id);
+
+        for(Todo todo : list){
+
+            if(todo.getId() == id){
+                list.remove(todo);
+            }
+        }
+
         return true;
     }
 
     @PostMapping("/todo")
     public Todo createTodo(@RequestBody Todo todo){
 
-        return todoRepository.save(todo);
+        list.add(todo);
+        return todo;
+        //return todoRepository.save(todo);
     }
 
     @PutMapping("/todo")
     public Todo updateTodo(@RequestBody Todo todo){
-        return todoRepository.save(todo);
+
+
+        for(Todo t : list){
+
+            if(todo.getId() == t.getId()){
+                list.remove(t);
+                list.add(todo);
+                return todo;
+            }
+        }
+
+        return null;
+        //return todoRepository.save(todo);
     }
 
 }
